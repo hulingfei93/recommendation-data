@@ -4,3 +4,5 @@ spring:
   data:
     mongodb:
       uri: mongodb+srv://admin:mGqLyD67kMCQWZDX@mongodb.iiiycjp.mongodb.net/video-recommendation?retryWrites=true&w=majority&readPreference=secondaryPreferred
+  elasticsearch:
+    uris: [http://localhost:9200]

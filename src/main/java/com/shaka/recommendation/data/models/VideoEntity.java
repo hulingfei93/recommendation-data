@@ -1,4 +1,4 @@
-package com.shaka.recommendation.data.entity;
+package com.shaka.recommendation.data.models;
 
 import java.util.Date;
 import java.util.List;
@@ -23,7 +23,7 @@ public class VideoEntity {
 
     private String url;
 
-    private VideoType type;
+    private String type;
 
     private String title;
 
@@ -46,8 +46,4 @@ public class VideoEntity {
     private Double score;
 
     private String description;
-}
-
-enum VideoType {
-    movie, drama
 }
