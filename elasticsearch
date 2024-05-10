@@ -1,0 +1,133 @@
+GET /videos/_mapping
+
+GET /videos/_count
+
+POST _analyze
+{
+  "analyzer": "ik_max_word",
+  "text": "我的幸福生活"
+}
+
+GET /videos/_search
+{
+  "query": { 
+    "match": {
+      "title": "我的幸福生活"
+    }
+  }
+}
+
+
+GET /videos/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "title": {
+              "query": "我的幸福生活",
+              "boost": 5 
+            }
+          }
+        },
+        {
+          "match": {
+            "actors": {
+              "query": "我的幸福生活",
+              "boost": 3
+            }
+          }
+        },
+        {
+          "match": {
+            "directors": {
+              "query": "我的幸福生活",
+              "boost": 3
+            }
+          }
+        },
+        {
+          "match": {
+            "description": {
+              "query": "我的幸福生活",
+              "boost": 1  
+            }
+          }
+        }
+      ],
+      "filter":  [
+        { "term" : { "region" : "大陆" } },
+        { "term" : { "language" : "国语" } }
+      ]
+    }
+  }
+}
+
+GET /videos/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "bool": {
+          "should": [
+            {
+              "match": {
+                "title": {
+                  "query": "我的幸福生活",
+                  "boost": 3
+                }
+              }
+            },
+            {
+              "match": {
+                "actors": {
+                  "query": "我的幸福生活",
+                  "boost": 2
+                }
+              }
+            },
+            {
+              "match": {
+                "directors": {
+                  "query": "我的幸福生活",
+                  "boost": 2
+                }
+              }
+            },
+            {
+              "match": {
+                "description": {
+                  "query": "我的幸福生活",
+                  "boost": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      "functions": [
+        {
+          "field_value_factor": {
+            "field": "score",
+            "factor": 0.1, 
+            "modifier": "log1p"
+          }
+        }
+      ],
+      "score_mode": "sum"
+    }
+  }
+}
+
+
+GET /videos/_search
+{
+  "query": {
+    "multi_match" : {
+      "query" : "我的幸福生活",
+      "fields":     [ "title^5", "description", "actors^3", "directors^3"]
+    }
+  }
+}
+

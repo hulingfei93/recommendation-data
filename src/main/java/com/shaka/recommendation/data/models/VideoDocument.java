@@ -30,7 +30,7 @@ public class VideoDocument {
     @Field(type = FieldType.Keyword)
     private String type;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String title;
 
     @Field(type = FieldType.Keyword, docValues = false, index = false)
@@ -51,16 +51,16 @@ public class VideoDocument {
     @Field(type = FieldType.Date)
     private Date time;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private List<String> actors;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private List<String> directors;
 
     @Field(type = FieldType.Double)
     private Double score;
 
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String description;
 
 }

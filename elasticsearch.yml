@@ -9,12 +9,6 @@ services:
       - 9200:9200
     volumes:
       - esdata:/usr/share/elasticsearch/data
-    command:
-      - /bin/bash
-      - -c
-      - |
-        bin/elasticsearch-plugin install --batch https://get.infini.cloud/elasticsearch/analysis-ik/7.17.21 || true
-        exec /usr/local/bin/docker-entrypoint.sh eswrapper
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.21
