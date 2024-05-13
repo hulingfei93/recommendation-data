@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
+import org.springframework.data.elasticsearch.core.suggest.Completion;
 
 import com.shaka.recommendation.data.models.VideoDocument;
 import com.shaka.recommendation.data.models.VideoEntity;
@@ -54,7 +55,14 @@ public class DataApplication implements CommandLineRunner {
 			List<VideoEntity> videos = videoPage.getContent();
 
 			List<VideoDocument> videoDocuments = new ArrayList<VideoDocument>();
+
 			for (VideoEntity video : videos) {
+
+				List<String> suggestionInputs = new ArrayList<String>();
+				suggestionInputs.add(video.getTitle());
+				suggestionInputs.addAll(video.getActors());
+				suggestionInputs.addAll(video.getDirectors());
+
 				videoDocuments.add(VideoDocument.builder()
 						.id(video.getId())
 						.url(video.getUrl())
@@ -70,6 +78,7 @@ public class DataApplication implements CommandLineRunner {
 						.directors(video.getDirectors())
 						.score(video.getScore())
 						.description(video.getDescription())
+						.suggestion(new Completion(suggestionInputs))
 						.build());
 			}
 
